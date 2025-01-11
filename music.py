@@ -135,6 +135,50 @@ class MusicPlayer:
         print(f"Parsed note: {note}, Octave: {octave}, Duration: {duration}")
         return (note, octave), duration
 
+    def play_nintendo_on(self):
+        """Recreate the Nintendo 'On' sound."""
+        base_freq = 196  # G3 (Hz)
+        higher_freq = 392  # G4 (Hz)
+
+        # Play the first note
+        self._play_frequency(base_freq, 300)  # Play G3 for 300 ms
+
+        # Play the second note with fade-out
+        duration = 800  # Duration of the fade-out (ms)
+        steps = 20  # Number of fade-out steps
+        step_duration = duration // steps
+
+        for i in range(steps):
+            # Gradually reduce volume
+            fade_volume = int(65535 * (1 - i / steps))  # Scale duty cycle
+            self.pin.freq(higher_freq)
+            self.pin.duty_u16(fade_volume)
+            time.sleep_ms(step_duration)
+
+        # Ensure PWM stops after playing
+        self.pin.duty_u16(0)
+
+    def play_buzzer(self, freq=440, duration_ms=500, buzz_rate=50):
+        """
+        Play a buzzer sound.
+
+        :param freq: Frequency of the buzz sound (default: 440 Hz).
+        :param duration_ms: Total duration of the buzzing (default: 500 ms).
+        :param buzz_rate: On/Off interval of the buzz in milliseconds (default: 50 ms).
+        """
+        # Calculate the number of buzz cycles
+        cycles = duration_ms // (buzz_rate * 2)
+
+        for _ in range(cycles):
+            # Turn the sound on
+            self._play_frequency(freq, buzz_rate)
+
+            # Turn the sound off (mute)
+            self.pin.duty_u16(0)
+            time.sleep_ms(buzz_rate)
+
+        # Ensure the PWM stops after buzzing
+        self.pin.duty_u16(0)
 
 # Example usage
 # music = MusicPlayer(pin=machine.Pin(15))

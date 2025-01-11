@@ -59,4 +59,7 @@ TUNES = {
     "power_down": [
         "G5:1", "D#1:1", "C5:1", "G4:2", "B4:1", "C5:3",
     ],
+    "nintendo_on": [
+        "G5:2", "G6:2", "G6:2"  # Ascending G major chord
+    ],
 }
