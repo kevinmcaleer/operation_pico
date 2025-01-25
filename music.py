@@ -37,7 +37,7 @@ class MusicPlayer:
         """Set the volume (0 to 100)."""
         if 0 <= volume <= 100:
             self.volume = volume
-            print(f"Volume set to {volume}%")
+#             print(f"Volume set to {volume}%")
         else:
             raise ValueError("Volume must be between 0 and 100")
 
@@ -49,7 +49,8 @@ class MusicPlayer:
         
         # Set frequency and adjust duty cycle based on volume
         self.pin.freq(int(freq))
-        duty = int(65535 * (self.volume / 100))  # Scale duty cycle for volume
+#         duty = int(65535 * (self.volume / 100))  # Scale duty cycle for volume
+        duty = (32768)
         self.pin.duty_u16(duty)
         
         # Play the tone for the specified duration
@@ -69,13 +70,6 @@ class MusicPlayer:
             return None
         return base_frequency * (2 ** (octave - 4))
 
-#     def _play_frequency(self, frequency, duration_ms):
-#         if frequency:
-#             self.pin.freq(int(frequency))
-#             self.pin.duty_u16(32768)  # 50% duty cycle
-#             time.sleep_ms(duration_ms)
-#             self.pin.duty_u16(0)
-
     def play(self, notes, wait=True, loop=False):
         self.is_playing = True
         while self.is_playing:
@@ -92,7 +86,7 @@ class MusicPlayer:
                 else:
                     raise ValueError(f"Invalid note format for {note}")
                 frequency = self._note_frequency(note[0], note[1])
-                print(f"Frequency: {frequency} Hz, Duration: {duration} beats")
+#                 print(f"Frequency: {frequency} Hz, Duration: {duration} beats")
                 if frequency:
                     duration_ms = (60000 // self.bpm) * duration // self.ticks
                     self._play_frequency(frequency, duration_ms - ARTICULATION_MS)
@@ -109,7 +103,7 @@ class MusicPlayer:
         self.pin.duty_u16(0)
 
     def _parse_note_string(self, note_str):
-        print(f"Parsing note string: '{note_str}'")
+#         print(f"Parsing note string: '{note_str}'")
         if ':' not in note_str:
             raise ValueError("Note string must include duration, e.g., 'C4:4'")
         
@@ -117,7 +111,7 @@ class MusicPlayer:
         note_octave, duration = note_str.split(':')
         duration = int(duration)  # Convert duration to integer
         
-        print(f"note_octave: {note_octave}, duration: {duration}")
+#         print(f"note_octave: {note_octave}, duration: {duration}")
         
         # Extract the octave
         if len(note_octave) < 2 or not note_octave[-1].isdigit():
@@ -132,7 +126,7 @@ class MusicPlayer:
         if note not in valid_notes:
             raise ValueError(f"Invalid note: {note}")
         
-        print(f"Parsed note: {note}, Octave: {octave}, Duration: {duration}")
+#         print(f"Parsed note: {note}, Octave: {octave}, Duration: {duration}")
         return (note, octave), duration
 
     def play_nintendo_on(self):

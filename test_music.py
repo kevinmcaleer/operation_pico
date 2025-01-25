@@ -2,6 +2,7 @@
 # @Author: Kevin McAleer
 # @Date: 2025-01-11
 
+import machine
 from music import MusicPlayer
 from tunes import TUNES
 

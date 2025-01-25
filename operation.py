@@ -33,7 +33,7 @@ def check_probe():
 
 
 music.play_nintendo_on()
-music.set_volume(50)
+# music.set_volume(50)
 # Play "Happy Birthday" tune
 music.set_tempo(bpm=120)
 
