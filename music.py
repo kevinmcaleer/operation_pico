@@ -49,8 +49,8 @@ class MusicPlayer:
         
         # Set frequency and adjust duty cycle based on volume
         self.pin.freq(int(freq))
-#         duty = int(65535 * (self.volume / 100))  # Scale duty cycle for volume
-        duty = (32768)
+        # duty = int(65535 * (self.volume / 100))  # Scale duty cycle for volume
+        duty = int(32768)
         self.pin.duty_u16(duty)
         
         # Play the tone for the specified duration
